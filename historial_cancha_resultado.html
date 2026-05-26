@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial - Cancha</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 30px;
+            background-color: #f7f7f7;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #aaa;
+            text-align: center;
+        }
+
+        th {
+            background-color: #ddd;
+        }
+
+        .btn-volver {
+            margin-top: 20px;
+            background-color: #555;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Historial de Reservas para la Cancha Seleccionada</h2>
+
+    {% if reservas %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Reserva</th>
+                    <th>Fecha</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Cliente</th>
+                    <th>Modo Pago</th>
+                    <th>Estado Pago</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for r in reservas %}
+                <tr>
+                    <td>{{ r.ID_RESERVA }}</td>
+                    <td>{{ r.FECHA_RESERVA }}</td>
+                    <td>{{ r.HORA_INICIO }}</td>
+                    <td>{{ r.HORA_FIN }}</td>
+                    <td>{{ r.CLIENTE }}</td>
+                    <td>{{ r.MODO_PAGO }}</td>
+                    <td>{{ r.ESTADO_PAGO }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <p>No hay reservas para esta cancha.</p>
+    {% endif %}
+
+    <a href="{{ url_for('historial_cancha_form') }}">
+        <button class="btn-volver">← Volver</button>
+    </a>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Reservas por Cancha</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 30px;
+            background-color: #f7f7f7;
+        }
+
+        .contenedor {
+            width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #999;
+        }
+
+        .btn-buscar {
+            background-color: #1f6feb;
+            color: white;
+        }
+
+        .btn-volver {
+            background-color: #555;
+            color: white;
+            margin-top: 15px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="contenedor">
+        <h2>Historial por Cancha</h2>
+
+        <form method="POST" action="{{ url_for('historial_cancha_result') }}">
+
+            <label for="id_cancha">Seleccione una Cancha:</label>
+            <select name="id_cancha" id="id_cancha" required>
+                <option value="">-- Seleccionar --</option>
+
+                {% for ca in canchas %}
+                <option value="{{ ca.ID_CANCHA }}">
+                    {{ ca.NOMBRE_CANCHA }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn-buscar">Buscar Historial</button>
+        </form>
+
+        <!-- BOTÓN VOLVER -->
+        <a href="{{ url_for('canchas_data_list') }}">
+            <button class="btn-volver">← Volver</button>
+        </a>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Canchas</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f7f7f7;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .main-layout {
+            width: 90%;
+            margin: 20px auto;
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .table-wrapper {
+            flex: 3;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.15);
+        }
+
+        .side-buttons {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .side-buttons h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #aaa;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        button {
+            padding: 8px 14px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .btn-registrar {
+            background-color: green;
+            color: white;
+            width: 100%;
+        }
+
+        .btn-clientes {
+            background-color: #D62723;
+            color: white;
+            width: 100%;
+        }
+
+        .btn-inicio {
+            background-color: #1f6feb;
+            color: white;
+            width: 100%;
+        }
+
+        .btn-editar {
+            background-color: orange;
+            color: white;
+        }
+
+        .btn-eliminar {
+            background-color: red;
+            color: white;
+        }
+
+        td.acciones {
+            padding: 8px;
+        }
+
+        .acciones-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .mensaje {
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Canchas Registradas</h1>
+    {% if request.args.get('error') %}
+    <p style="color: red; font-weight: bold;">
+        {{ request.args.get('error') }}
+    </p>
+{% endif %}
+
+    {% if error_msg %}
+        <p style="color: red; text-align:center;">{{ error_msg }}</p>
+    {% endif %}
+
+    <div class="main-layout">
+
+        <!-- TABLA DE CANCHAS -->
+        <div class="table-wrapper">
+            {% if canchas %}
+                <table>
+                    <thead>
+                        <tr>
+                            {% for columna in columnas %}
+                                <th>{{ columna }}</th>
+                            {% endfor %}
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for cancha in canchas %}
+                            <tr>
+                                {% for key, dato in cancha.items() %}
+                                    <td>{{ dato }}</td>
+                                {% endfor %}
+
+                                <td class="acciones">
+                                    <div class="acciones-wrapper">
+
+                                        <!-- Botón EDITAR -->
+                                        <a href="{{ url_for('editar_cancha', cancha_id=cancha.ID_CANCHA) }}">
+                                            <button class="btn-editar">Modificar</button>
+                                        </a>
+
+                                        <!-- Botón ELIMINAR -->
+                                        <form method="POST" action="{{ url_for('eliminar_cancha', cancha_id=cancha.ID_CANCHA) }}">
+                                            <button type="submit" class="btn-eliminar"
+                                                onclick="return confirm('¿Seguro que deseas eliminar esta cancha?');">
+                                                Eliminar
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            {% else %}
+                <div class="mensaje">No se encontraron canchas.</div>
+            {% endif %}
+        </div>
+
+        <!-- BOTONES DERECHA -->
+        <div class="side-buttons">
+            <h3>Acciones</h3>
+
+            <a href="{{ url_for('mostrar_registro_canchas') }}">
+                <button class="btn-registrar">Registrar Nueva Cancha</button>
+            </a>
+
+            <a href="{{ url_for('mostrar_registro_clientes') }}">
+                <button class="btn-clientes">Ir a Clientes</button>
+            </a>
+
+            <a href="{{ url_for('mostrar_registro_reservas') }}">
+                <button class="btn-inicio">Ir a Reservas (Inicio)</button>
+            </a>
+
+            <!-- NUEVO: HISTORIAL DE RESERVAS POR CANCHA -->
+            <a href="{{ url_for('historial_cancha_form') }}">
+                <button class="btn-inicio">Historial de Reservas por Cancha</button>
+            </a>
+
+        </div>
+    </div>
+
+</body>
+</html>
+

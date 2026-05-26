@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Cancha</title>
+
+    <style>
+        body { 
+            font-family: sans-serif;
+            margin: 30px;
+            background-color: #f7f7f7;
+        }
+
+        h1 { 
+            color: #2790D6;
+        }
+
+        .top-buttons {
+            margin-bottom: 20px;
+        }
+
+        .btn-accion {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 10px;
+            border: none;
+            font-size: 15px;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            max-width: 450px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        }
+
+        form label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        form input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #999;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Registrar Nueva Cancha</h1>
+
+    <!-- BOTONES SUPERIORES -->
+    <div class="top-buttons">
+    <a href="{{ url_for('canchas_data_list') }}">
+        <button class="btn-accion" style="background-color: blue; color: white;">
+            Ver Canchas Registradas
+        </button>
+    </a>
+
+    <a href="{{ url_for('mostrar_registro_clientes') }}">
+        <button class="btn-accion" style="background-color: #D62723; color: white;">
+            Ir a Clientes
+        </button>
+    </a>
+
+    <!-- NUEVO: botón de inicio / reservas -->
+    <a href="{{ url_for('mostrar_registro_reservas') }}">
+        <button class="btn-accion" style="background-color: #1f6feb; color: white;">
+            Ir a Reservas (Inicio)
+        </button>
+    </a>
+</div>
+
+    <!-- MENSAJE DE ERROR (si corresponde) -->
+    {% if error_msg %}
+        <div class="error">{{ error_msg }}</div>
+    {% endif %}
+
+    <!-- FORMULARIO -->
+    <form method="POST" action="{{ url_for('insertar_cancha') }}">
+
+        <label for="nombre_cancha">Nombre de la Cancha:</label>
+        <input type="text" id="nombre_cancha" name="nombre_cancha" required>
+
+        <label for="tipo_deporte">Tipo de Deporte:</label>
+        <input type="text" id="tipo_deporte" name="tipo_deporte" required>
+
+        <label for="disponible">Disponible (SI/NO):</label>
+        <input type="text" id="disponible" name="disponible" maxlength="2" required
+            pattern="(SI|NO|si|no|Si|No)" title="Debe ser SI o NO">
+
+
+
+        <button type="submit" class="btn-accion" style="background-color: green; color: white; margin-top: 15px;">
+            Guardar Cancha
+        </button>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Cancha</title>
+    <style>
+        body { font-family: sans-serif; margin: 30px; }
+        h1 { color: orange; }
+        form label, form input { margin-bottom: 10px; display: block; }
+        .btn-accion { padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; margin-top: 15px;}
+    </style>
+</head>
+<body>
+    <h1>Editar Cancha #{{ cancha.ID_CANCHA }}</h1>
+    
+    {% if error_msg %}
+        <p style="color: red;">{{ error_msg }}</p>
+    {% endif %}
+
+    {% if cancha %}
+        <form method="POST" action="{{ url_for('actualizar_cancha', cancha_id=cancha.ID_CANCHA) }}">
+            
+            <label for="nombre_cancha">Nombre de la Cancha:</label>
+            <input type="text" id="nombre_cancha" name="nombre_cancha" value="{{ cancha.NOMBRE_CANCHA }}" required>
+            
+            <label for="tipo_deporte">Tipo de Deporte:</label>
+            <input type="text" id="tipo_deporte" name="tipo_deporte" value="{{ cancha.TIPO_DEPORTE }}" required>
+            
+            <label for="disponible">Disponible (SI/NO):</label>
+            <input type="text" id="disponible" name="disponible" maxlength="2" value="{{ cancha.DISPONIBLE }}" required>
+            
+            <button type="submit" class="btn-accion" style="background-color: green; color: white;">
+                Guardar Cambios
+            </button>
+            
+            <a href="{{ url_for('canchas_data_list') }}">
+                <button type="button" class="btn-accion" style="background-color: gray; color: white;">
+                    Cancelar
+                </button>
+            </a>
+        </form>
+    {% endif %}
+</body>
+</html>

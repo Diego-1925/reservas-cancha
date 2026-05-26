@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Cliente</title>
+
+    <style>
+        body { 
+            font-family: sans-serif; 
+            margin: 30px; 
+            background-color: #f7f7f7;
+        }
+
+        h1 { 
+            color: #D62723; 
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            max-width: 450px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        }
+
+        form label { 
+            margin-top: 10px;
+            display: block;
+            font-weight: bold;
+        }
+
+        form input { 
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #999;
+        }
+
+        .btn-accion { 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            margin-right: 10px; 
+            border: none;
+        }
+
+        .top-buttons {
+            margin-bottom: 20px;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <h1>Registrar Nuevo Cliente</h1>
+
+    <!-- BOTONES SUPERIORES -->
+    <div class="top-buttons">
+    <a href="{{ url_for('clientes_data_list') }}">
+        <button class="btn-accion" style="background-color: blue; color: white;">
+            Ver Clientes Registrados
+        </button>
+    </a>
+
+    <a href="{{ url_for('mostrar_registro_canchas') }}">
+        <button class="btn-accion" style="background-color: purple; color: white;">
+            Ir a Canchas
+        </button>
+    </a>
+
+    <!-- NUEVO: botón de inicio / reservas -->
+    <a href="{{ url_for('mostrar_registro_reservas') }}">
+        <button class="btn-accion" style="background-color: #1f6feb; color: white;">
+            Ir a Reservas (Inicio)
+        </button>
+    </a>
+</div>
+
+
+    <!-- MENSAJE DE ERROR (si vienes de un fallo) -->
+    {% if error_msg %}
+        <div class="error">{{ error_msg }}</div>
+    {% endif %}
+
+    <!-- FORMULARIO DE REGISTRO -->
+    <form method="POST" action="{{ url_for('insertar_cliente') }}">
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" required>
+
+        <label for="rut">RUT:</label>
+        <input type="text" id="rut" name="rut" required>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="text" id="telefono" name="telefono" required>
+
+        <label for="correo_electronico">Correo Electrónico:</label>
+        <input type="email" id="correo_electronico" name="correo_electronico" required>
+
+        <button type="submit" class="btn-accion" style="background-color: green; color: white; margin-top: 15px;">
+            Guardar Cliente
+        </button>
+    </form>
+
+</body>
+</html>

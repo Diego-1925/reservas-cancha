@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Reservas</title>
+
+    <style>
+        body { font-family: sans-serif; }
+        .filtros {
+            background: #f0f0f0;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            width: 500px;
+        }
+        .filtros label { font-weight: bold; }
+        .filtros input, .filtros select { padding: 5px; margin-bottom: 10px; width: 100%; }
+        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+        th, td { border: 1px solid #666; padding: 8px; text-align: center; }
+        th { background: #ddd; }
+    </style>
+</head>
+<body>
+
+    <h1>Reservas Registradas</h1>
+    
+    <p>
+        <a href="{{ url_for('mostrar_registro_reservas') }}">
+            <button style="background-color: gray; color: white;">← Volver a Registrar Reserva</button>
+        </a>
+
+        <a href="{{ url_for('clientes_data_list') }}">
+            <button style="background-color: blue; color: white;">Ver Clientes</button>
+        </a>
+    </p>
+
+    <!-- ========================================================= -->
+    <!-- 🔎 FORMULARIO DE FILTROS (FUNCIONA CON tu backend)       -->
+    <!-- ========================================================= -->
+    <div class="filtros">
+        <form method="GET" action="{{ url_for('reservas_data_list') }}">
+
+            <label>Fecha desde:</label>
+            <input type="date" name="fecha_desde" value="{{ request.args.get('fecha_desde','') }}">
+
+            <label>Fecha hasta:</label>
+            <input type="date" name="fecha_hasta" value="{{ request.args.get('fecha_hasta','') }}">
+
+            <label>Estado de pago:</label>
+            <select name="estado_pago">
+                <option value="">-- Todos --</option>
+                <option value="Pagado"
+                    {% if request.args.get('estado_pago') == 'Pagado' %}selected{% endif %}>
+                    Pagado
+                </option>
+                <option value="Pendiente"
+                    {% if request.args.get('estado_pago') == 'Pendiente' %}selected{% endif %}>
+                    Pendiente
+                </option>
+            </select>
+
+            <button type="submit" style="background: green; color: white; width: 100%; margin-top: 10px;">
+                Filtrar
+            </button>
+        </form>
+    </div>
+
+    {% if error_msg %}
+        <p style="color: red;">{{ error_msg }}</p>
+    {% endif %}
+
+    {% if reservas %}
+        <table>
+            <thead>
+                <tr>
+                    {% for columna in columnas_display %}
+                        <th>{{ columna }}</th>
+                    {% endfor %}
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for reserva in reservas %}
+                    <tr>
+                        {% for key in reservas[0].keys() %}
+                            <td>{{ reserva[key] }}</td>
+                        {% endfor %}
+
+                        <td>
+                            <!-- Botón EDITAR -->
+                            <a href="{{ url_for('editar_reserva', reserva_id=reserva.ID_RESERVA) }}">
+                                <button style="background-color: orange; color: white;">Modificar</button>
+                            </a>
+
+                            <!-- Botón ELIMINAR -->
+                            <form method="POST" 
+                                action="{{ url_for('eliminar_reserva', reserva_id=reserva.ID_RESERVA) }}"
+                                style="display: inline;">
+                                <button type="submit" style="background-color: red; color: white;">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <p>No se encontraron reservas.</p>
+    {% endif %}
+
+</body>
+</html>

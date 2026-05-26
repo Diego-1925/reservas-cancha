@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Cliente</title>
+    <style>
+        body { font-family: sans-serif; margin: 30px; }
+        h1 { color: #D62723; }
+        form label, form input { margin-bottom: 10px; display: block; }
+        .btn-accion { padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Registrar Nuevo Cliente</h1>
+    
+    <p>
+        <a href="{{ url_for('listar_clientes') }}">
+            <button class="btn-accion" style="background-color: blue; color: white;">
+                Ver Clientes Registrados
+            </button>
+        </a>
+    </p>
+
+    <form method="POST" action="{{ url_for('insertar_cliente') }}">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        
+        <label for="apellido">APELLIDO:</label>
+        <input type="text" id="apellido" name="apellido" required>
+        
+        <label for="rut">RUT:</label>
+        <input type="text" id="rut" name="rut" required>
+        
+        <label for="telefono">TELÉFONO:</label>
+        <input type="text" id="telefono" name="telefono" required>
+        
+        <label for="correo_electronico">CORREO ELECTRÓNICO:</label>
+        <input type="email" id="correo_electronico" name="correo_electronico" required>
+        
+        <button type="submit" class="btn-accion" style="background-color: green; color: white;">
+            Guardar Cliente
+        </button>
+    </form>
+</body>
+</html>

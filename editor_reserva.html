@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Reserva</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background: #f7f7f7; }
+        form { background: white; padding: 20px; border-radius: 8px; max-width: 500px; margin: auto; }
+        label { font-weight: bold; margin-top: 10px; display:block; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; }
+        button { padding: 10px; margin-top: 15px; background: green; color: white; border: none; cursor:pointer; border-radius:5px;}
+    </style>
+</head>
+<body>
+
+<h2 style="text-align: center;">Editar Reserva #{{ reserva.ID_RESERVA }}</h2>
+
+<form method="POST" action="{{ url_for('actualizar_reserva', id_reserva=reserva.ID_RESERVA) }}">
+
+    <label>Cliente:</label>
+    <select name="id_cliente" required>
+        {% for c in clientes %}
+            <option value="{{ c.ID_CLIENTE }}" 
+                    {% if reserva.ID_CLIENTE == c.ID_CLIENTE %} selected {% endif %}>
+                {{ c.NOMBRE_COMPLETO }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label>Cancha:</label>
+    <select name="id_cancha" required>
+        {% for ca in canchas %}
+            <option value="{{ ca.ID_CANCHA }}"
+                    {% if reserva.ID_CANCHA == ca.ID_CANCHA %} selected {% endif %}>
+                {{ ca.NOMBRE_CANCHA }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label>Fecha:</label>
+    <input type="date" name="fecha_reserva" value="{{ reserva.FECHA_RESERVA }}" required>
+
+        <label for="hora_inicio">Hora Inicio:</label>
+        <select name="hora_inicio" id="hora_inicio" required>
+            <option value="">-- Seleccionar hora --</option>
+            <option value="10:00">10:00</option>
+            <option value="11:00">11:00</option>
+            <option value="12:00">12:00</option>
+            <option value="13:00">13:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+            <option value="17:00">17:00</option>
+            <option value="18:00">18:00</option>
+            <option value="19:00">19:00</option>
+            <option value="20:00">20:00</option>
+            <option value="21:00">21:00</option>
+            <option value="22:00">22:00</option>
+        </select>
+    </div>
+
+    <div class="col">
+        <label for="hora_fin">Hora Fin:</label>
+        <select name="hora_fin" id="hora_fin" required>
+            <option value="">-- Seleccionar hora --</option>
+            <option value="11:00">11:00</option>
+            <option value="12:00">12:00</option>
+            <option value="13:00">13:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+            <option value="17:00">17:00</option>
+            <option value="18:00">18:00</option>
+            <option value="19:00">19:00</option>
+            <option value="20:00">20:00</option>
+            <option value="21:00">21:00</option>
+            <option value="22:00">22:00</option>
+            <option value="23:00">23:00</option>
+        </select>
+    </div>
+
+    <label>Monto Total:</label>
+    <input type="int" name="monto_total" step="0.01" value="{{ reserva.MONTO_TOTAL }}" required>
+
+    <label>Modo de Pago:</label>
+    <input type="text" name="modo_pago" value="{{ reserva.MODO_PAGO }}" required>
+
+    <label>Estado Pago:</label>
+    <select name="estado_pago">
+        <option value="Pendiente" {% if reserva.ESTADO_PAGO == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+        <option value="Pagado" {% if reserva.ESTADO_PAGO == 'Pagado' %}selected{% endif %}>Pagado</option>
+    </select>
+
+    <button type="submit">Guardar Cambios</button>
+
+</form>
+
+<br>
+
+<a href="/reservas/lista">
+    <button style="background: gray; color: white; width: 200px;">Volver</button>
+</a>
+
+</body>
+</html>
